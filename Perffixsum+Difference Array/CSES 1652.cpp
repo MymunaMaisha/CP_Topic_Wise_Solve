@@ -8,25 +8,26 @@ ios_base::sync_with_stdio(false);
 cin.tie(NULL);
 cout.tie(NULL);
 
- ll n,m;
- cin>>n>>m;
- ll ar[n][n],pref[n+1][n+1]={0};
-for(int i=1; i<=n; i++){
-    for(int j=1; j<=n; j++){
-        char x;
-        cin >> x;
+    int n;
+    cin >> n;
 
-        ar[i-1][j-1] = (x == '*');
-
-        pref[i][j] = ar[i-1][j-1]+ pref[i-1][j] + pref[i][j-1]- pref[i-1][j-1];
+   vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >>arr[i];
     }
-}
 
-while(m--){
-    int x1,y1,x2,y2;
-    cin >> x1 >> y1 >> x2 >> y2;
+    map<ll, ll> psums;
+    psums[0] = 1;
+    ll cur_sum = 0;
+    ll total = 0;
+    for (int i = 0; i < n; i++) {
+        cur_sum += arr[i];
+        int mod = (cur_sum % n + n) % n;
+        total += psums[mod];
+        psums[mod]++;
+    }
 
-    cout << pref[x2][y2]- pref[x1-1][y2]- pref[x2][y1-1]+ pref[x1-1][y1-1]<< endl;
-}
+    cout << total << endl;
+
 return 0;
 }
